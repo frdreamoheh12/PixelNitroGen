@@ -44,6 +44,28 @@ jobs:
             done < <(tail -n 20 maven.log)
           fi
           exit "$result"
+      - name: Explain failing tests
+        if: failure()
+        shell: python
+        run: |
+          import glob
+          import xml.etree.ElementTree as ET
+          found = False
+          for report in glob.glob('target/surefire-reports/TEST-*.xml'):
+              root = ET.parse(report).getroot()
+              for case in root.iter('testcase'):
+                  for issue in case:
+                      if issue.tag not in {'failure', 'error'}:
+                          continue
+                      found = True
+                      detail = issue.get('message', '') or (issue.text or '').splitlines()[0:1]
+                      if isinstance(detail, list):
+                          detail = detail[0] if detail else 'No error detail recorded'
+                      message = f"{case.get('classname')}.{case.get('name')}: {issue.tag}: {detail}"
+                      message = message.replace('%', '%25').replace('\r', '%0D').replace('\n', '%0A')
+                      print(f"::error title=JUnit test failure::{message[:900]}")
+          if not found:
+              print('::warning title=JUnit diagnostics::No Surefire testcase errors were found in the XML reports.')
       - name: Package and inspect release artifacts
         run: python3 scripts/package_release.py
       - name: Upload verified distribution
