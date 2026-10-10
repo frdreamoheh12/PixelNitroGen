@@ -183,9 +183,9 @@ Storage-backed methods return `CompletableFuture`; do not call `.join()` on Pape
 
 ## Build, tests, and compatibility status
 
-The project targets `io.papermc.paper:paper-api:1.21.11-R0.1-SNAPSHOT` and Java 21. No compile, unit-test, plugin startup, Java 25, Paper 1.21.11, or Paper 26.2 result is claimed until recorded in `BUILD-REPORT.md`. This execution environment initially had no JDK or Maven installed; inspect that report for the actual build result.
+The project targets `io.papermc.paper:paper-api:1.21.11-R0.1-SNAPSHOT` and Java 21. GitHub Actions successfully ran `mvn -B clean verify` and packaged the shaded JAR plus source/complete ZIPs; see `BUILD-REPORT.md` for the run link and test results. The workflow artifact is available for 30 days from the run.
 
-To build in CI, GitHub Actions installs Temurin 21 and runs `mvn -B clean verify`. A successful compile/test is not the same as a server smoke test. Compatibility beyond Paper 1.21.11 remains unverified, including Minecraft/Paper 26.2.
+This verifies dependency resolution, compilation, unit tests, and archive checks—not a server smoke test. Paper 1.21.11 startup, Java 25, PlaceholderAPI runtime behavior, and Minecraft/Paper 26.2 compatibility remain unverified.
 
 ## License
 

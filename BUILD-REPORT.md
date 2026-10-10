@@ -3,33 +3,39 @@
 - **Artifact version:** `1.21.11-26.2`
 - **Configured Paper API:** `io.papermc.paper:paper-api:1.21.11-R0.1-SNAPSHOT`
 - **Java bytecode target:** 21
-- **Report status:** Source implementation present; release build and deployable JAR are not verified in this workspace.
+- **Verified source commit:** `f80e2861e4ada69e18f0d537e4f5eebd7b6a53ca`
+- **GitHub Actions run:** [Maven build #3](https://github.com/frdreamoheh12/PixelNitroGen/actions/runs/38061830712) — **success**
+- **Report status:** Maven verification, JUnit tests, shaded-JAR checks, ZIP packaging, and artifact upload passed in GitHub Actions. No Paper server startup or Paper 26.2 compatibility claim is made.
 
-## Verification performed
+## Build and test results
 
-- Read `AstraCurrencyEngine_Master_Development_Prompt.md` from the GitHub `origin/main` tree and implemented against it.
-- Confirmed the Paper 1.21.11 API version/coordinates from PaperMC's `ver/1.21.11` branch metadata and inspected the PlaceholderAPI 2.11.6 expansion API source on GitHub.
-- Parsed all Java source files with the Java parser.
-- Compiled Java main and test sources to Java 21 bytecode with Eclipse Compiler for Java 3.39.0 **against temporary minimal Bukkit/Paper/Adventure/PlaceholderAPI/JUnit stubs**. This catches Java syntax and internal type errors only; it does not establish binary compatibility with the real server API, and no tests were executed.
-- Parsed all bundled YAML resources with PyYAML and checked message/menu keys referenced by source.
-- Validated `pom.xml` as XML and checked Maven release-packaging script inputs.
+- `mvn -B clean verify`: **passed** on GitHub Actions with Temurin Java 21.
+- Real Paper API and PlaceholderAPI compile dependencies resolved; Java and Kotlin compile phases completed.
+- JUnit 5 / Surefire: **8 tests, 0 failures, 0 errors, 0 skipped**.
+  - Currency definition validation: 3 tests.
+  - Decimal formatting: 2 tests.
+  - SQLite persistence, transfer/tax, idempotency, and concurrent withdrawals: 3 tests.
+- Release packaging script: **passed**. It inspected `plugin.yml`, the declared main class, Maven/plugin versions, and shaded `org.sqlite.JDBC`.
+- The uploaded Actions distribution includes:
+  - `AstraCurrencyEngine-1.21.11-26.2.jar`
+  - `AstraCurrencyEngine-Source.zip`
+  - `AstraCurrencyEngine-Complete.zip`
+  - `SHA256SUMS.txt`
+  - CI-generated `BUILD-REPORT.md`
+- Download the temporary workflow artifact from the linked run page above; the workflow retains it for 30 days. The checksum file is included in that artifact bundle.
 
-## Not performed / not verified
+## Runtime verification still outstanding
 
-- `mvn -B clean verify`: **not run**. Maven and `javac` are not installed in the workspace.
-- Real Paper API dependency resolution and compilation: **not performed**.
-- Deployable shaded JAR creation, descriptor inspection, and packaged dependency inspection: **not performed**.
-- JUnit execution / SQLite driver integration tests: **not performed**.
-- Paper 1.21.11 server startup smoke test: **not performed**.
-- Java 21 or Java 25 server runtime test: **not performed**.
-- PlaceholderAPI runtime test: **not performed**.
-- Minecraft/Paper 26.2 compatibility: **not verified and not claimed**. The plugin descriptor sets 1.21.11 as its minimum API; compiling against the oldest API is an intended compatibility strategy, not proof that newer APIs remain binary compatible.
-- Vault, Skript, ajLeaderboards, Topper, MySQL/MariaDB, native Dialog API, and Folia: **not implemented**.
+- Paper 1.21.11 server startup / plugin smoke test: **not performed**.
+- Java 25 runtime test: **not performed**.
+- Minecraft/Paper 26.2 compatibility: **not verified and not claimed**. The plugin descriptor targets API 1.21.11; compiling against that API is not proof of compatibility with future server APIs.
+- PlaceholderAPI runtime test: **not performed**; only compile-time integration was verified.
+- Vault, Skript, ajLeaderboards, Topper, MySQL/MariaDB, native Dialog API, and Folia: **not implemented** in this release.
 
 ## Dependency versions
 
-The Maven project configures Paper API `1.21.11-R0.1-SNAPSHOT` (`provided`), PlaceholderAPI `2.11.6` (optional, `provided`), Xerial SQLite JDBC `3.45.3.0` (shaded), Kotlin stdlib/plugin `2.0.21`, and JUnit 5 `5.10.2`. Repository resolution and dependency/shading compatibility have not been exercised here.
+Paper API `1.21.11-R0.1-SNAPSHOT` (`provided`), PlaceholderAPI `2.11.6` (optional, `provided`), Xerial SQLite JDBC `3.45.3.0` (shaded), Kotlin stdlib/plugin `2.0.21`, and JUnit 5 `5.10.2`.
 
-## Release gate
+## License gate
 
-Run the GitHub Actions workflow or execute `mvn -B clean verify` with JDK 21. Only after it succeeds, run `python3 scripts/package_release.py`. The packaging script refuses to continue unless tests have reports and the shaded JAR contains `plugin.yml`, the declared main class, and SQLite JDBC. A Paper server smoke test and owner-approved license remain release requirements.
+The owner has not selected a license. `LICENSE` is a status notice, not a license. Public redistribution remains blocked until an owner-approved license is supplied.
