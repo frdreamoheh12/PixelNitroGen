@@ -22,7 +22,28 @@ jobs:
           java-version: '21'
           cache: maven
       - name: Verify source and tests
-        run: mvn -B clean verify
+        shell: bash
+        run: |
+          set +e
+          mvn -B clean verify > maven.log 2>&1
+          result=$?
+          cat maven.log
+          if [ "$result" -ne 0 ]; then
+            {
+              echo '## Maven failure tail'
+              echo '```text'
+              tail -n 50 maven.log
+              echo '```'
+            } >> "$GITHUB_STEP_SUMMARY"
+            while IFS= read -r line; do
+              message=${line//'%'/'%25'}
+              message=${message//$'\r'/'%0D'}
+              message=${message//$'\n'/'%0A'}
+              message=${message:0:900}
+              printf '::error title=Maven diagnostic::%s\n' "$message"
+            done < <(tail -n 20 maven.log)
+          fi
+          exit "$result"
       - name: Package and inspect release artifacts
         run: python3 scripts/package_release.py
       - name: Upload verified distribution
