@@ -12,6 +12,7 @@ import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.StandardCopyOption;
 import java.sql.Connection;
+import java.sql.Driver;
 import java.sql.DriverManager;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -57,6 +58,7 @@ public final class SqliteStorage implements AutoCloseable {
     private final Path backupDirectory;
     private final int busyTimeoutMillis;
     private final ThreadPoolExecutor worker;
+    private Driver sqliteDriver;
 
     public SqliteStorage(Path databaseFile, Path backupDirectory, int busyTimeoutMillis, int queueCapacity) {
         this.databaseFile = Objects.requireNonNull(databaseFile, "databaseFile").toAbsolutePath().normalize();
@@ -79,6 +81,7 @@ public final class SqliteStorage implements AutoCloseable {
         } catch (ClassNotFoundException ex) {
             throw new SQLException("The SQLite JDBC driver is missing from the plugin JAR", ex);
         }
+        registerSqliteDriver();
         Files.createDirectories(databaseFile.getParent());
         Files.createDirectories(backupDirectory);
         try (Connection connection = openConnection(); Statement statement = connection.createStatement()) {
@@ -685,15 +688,31 @@ public final class SqliteStorage implements AutoCloseable {
         }
     }
 
-    private void deregisterDriver() {
-        try {
-            var drivers = DriverManager.getDrivers();
-            while (drivers.hasMoreElements()) {
-                var driver = drivers.nextElement();
-                if (driver.getClass().getClassLoader() == SqliteStorage.class.getClassLoader()) {
-                    DriverManager.deregisterDriver(driver);
-                }
+    private void registerSqliteDriver() throws SQLException {
+        if (sqliteDriver != null) {
+            return;
+        }
+        var drivers = DriverManager.getDrivers();
+        while (drivers.hasMoreElements()) {
+            Driver driver = drivers.nextElement();
+            if (driver.getClass().getClassLoader() == SqliteStorage.class.getClassLoader()) {
+                sqliteDriver = driver;
+                return;
             }
+        }
+        // Class.forName above initializes SQLite JDBC only once; create a fresh registration after close.
+        sqliteDriver = new org.sqlite.JDBC();
+        DriverManager.registerDriver(sqliteDriver);
+    }
+
+    private void deregisterDriver() {
+        Driver driver = sqliteDriver;
+        sqliteDriver = null;
+        if (driver == null) {
+            return;
+        }
+        try {
+            DriverManager.deregisterDriver(driver);
         } catch (SQLException ignored) {
             // Shutdown should not fail if the driver is already gone.
         }
