@@ -1,0 +1,10 @@
+/target/
+/dist/
+/artifacts/
+*.log
+*.db
+*.db-shm
+*.db-wal
+.idea/
+.vscode/
+.DS_Store

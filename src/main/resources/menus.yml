@@ -1,0 +1,13 @@
+dashboard:
+  title: '<gradient:#FFD166:#FF7A18><bold>Astra Currency</bold></gradient>'
+  rows: 6
+  filler:
+    enabled: true
+    material: GRAY_STAINED_GLASS_PANE
+    name: ' '
+  currency-item:
+    material: GOLD_INGOT
+    name: '{currency_name}'
+    lore:
+      - '<gray>Balance: <white>{balance}</white></gray>'
+      - '<gray>Click to view currency details.</gray>'

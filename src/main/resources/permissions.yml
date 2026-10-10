@@ -1,0 +1,27 @@
+# Reference list; authoritative default permissions are declared in plugin.yml.
+permissions:
+  astracurrency.use: true
+  astracurrency.help: true
+  astracurrency.list: true
+  astracurrency.balance: true
+  astracurrency.balance.others: op
+  astracurrency.pay: true
+  astracurrency.top: true
+  astracurrency.history: true
+  astracurrency.gui: true
+  astracurrency.admin: op
+  astracurrency.admin.create: op
+  astracurrency.admin.delete: op
+  astracurrency.admin.edit: op
+  astracurrency.admin.give: op
+  astracurrency.admin.take: op
+  astracurrency.admin.set: op
+  astracurrency.admin.reset: op
+  astracurrency.admin.resetall: op
+  astracurrency.admin.reload: op
+  astracurrency.admin.backup: op
+  astracurrency.admin.restore: op
+  astracurrency.admin.migrate: op
+  astracurrency.admin.debug: op
+  astracurrency.admin.status: op
+  # Currency-specific nodes: astracurrency.pay.<id>, astracurrency.balance.<id>

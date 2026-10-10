@@ -1,0 +1,7 @@
+placeholderapi:
+  enabled: true
+  # Placeholder requests read in-memory snapshots only; they never query the database on the server thread.
+  refresh-seconds: 60
+
+# Vault, Skript, ajLeaderboards, Topper, LuckPerms write integrations, Folia scheduling, and native Paper dialogs
+# are not registered by this release. See README.md for the precise support status.

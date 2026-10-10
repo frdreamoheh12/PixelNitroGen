@@ -1,0 +1,32 @@
+id: shards
+enabled: true
+display:
+  name: '<gradient:#55FFFF:#AA55FF><bold>Shards</bold></gradient>'
+  singular: Shard
+  plural: Shards
+  symbol: '✦'
+  description: 'A rare, high-value currency.'
+formatting:
+  decimals: 0
+  grouping: true
+  pattern: '{symbol} {amount}'
+  compact-pattern: '{amount_compact} {symbol}'
+  locale: en-US
+  rounding-mode: DOWN
+economy:
+  default-balance: '0'
+  minimum-balance: '0'
+  maximum-balance: '1000000000000'
+  transferable: true
+  allow-negative: false
+  transaction-tax: '0'
+  leaderboard-enabled: true
+menus:
+  visible: true
+  display-item: AMETHYST_SHARD
+  slot: 24
+  model-data: 0
+notifications:
+  title-enabled: false
+  sound-enabled: false
+  actionbar-enabled: false

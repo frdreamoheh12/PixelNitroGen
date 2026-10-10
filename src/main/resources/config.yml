@@ -1,0 +1,17 @@
+# General settings. Values in currencies/<id>.yml control each currency's limits and formatting.
+primary-currency: coins
+
+# Dashboard refresh interval in seconds. The refresh does database work asynchronously.
+leaderboards:
+  refresh-seconds: 60
+  default-page-size: 10
+  maximum-page-size: 100
+
+# Maximum lifetime for administrative confirmation prompts.
+admin:
+  confirmation-seconds: 30
+
+# Chat and component behavior.
+messages:
+  prefix-enabled: true
+  legacy-colors: true

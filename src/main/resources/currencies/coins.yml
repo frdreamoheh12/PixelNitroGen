@@ -1,0 +1,32 @@
+id: coins
+enabled: true
+display:
+  name: '<gradient:#FFD166:#FF7A18><bold>Coins</bold></gradient>'
+  singular: Coin
+  plural: Coins
+  symbol: '⛁'
+  description: 'The primary server currency.'
+formatting:
+  decimals: 2
+  grouping: true
+  pattern: '{symbol} {amount}'
+  compact-pattern: '{amount_compact} {symbol}'
+  locale: en-US
+  rounding-mode: DOWN
+economy:
+  default-balance: '100'
+  minimum-balance: '0'
+  maximum-balance: '1000000000000'
+  transferable: true
+  allow-negative: false
+  transaction-tax: '0'
+  leaderboard-enabled: true
+menus:
+  visible: true
+  display-item: GOLD_INGOT
+  slot: 20
+  model-data: 0
+notifications:
+  title-enabled: false
+  sound-enabled: false
+  actionbar-enabled: false

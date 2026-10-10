@@ -1,0 +1,99 @@
+name: AstraCurrencyEngine
+version: 1.21.11-26.2
+main: com.astrastudio.astracurrency.AstraCurrencyEngine
+author: AstraStudio
+authors: [LivingCritz, DevAstrix]
+description: Configurable multi-currency economy engine for Paper.
+api-version: '1.21.11'
+softdepend: [PlaceholderAPI]
+commands:
+  currency:
+    description: View currencies, balances, transfers, and economy information.
+    usage: /currency [help|list|balance|pay|top|history|info|gui]
+    aliases: [astracurrency]
+  ace:
+    description: AstraCurrencyEngine administration commands.
+    usage: /ace admin help
+permissions:
+  astracurrency.use:
+    description: Use AstraCurrencyEngine player features.
+    default: true
+    children:
+      astracurrency.help: true
+      astracurrency.list: true
+      astracurrency.balance: true
+      astracurrency.pay: true
+      astracurrency.top: true
+      astracurrency.history: true
+      astracurrency.gui: true
+  astracurrency.help:
+    default: true
+  astracurrency.list:
+    default: true
+  astracurrency.balance:
+    default: true
+  astracurrency.balance.others:
+    default: op
+  astracurrency.pay:
+    default: true
+  astracurrency.top:
+    default: true
+  astracurrency.history:
+    default: true
+  astracurrency.gui:
+    default: true
+  astracurrency.currency.*:
+    description: Use all currency-specific features.
+    default: true
+  astracurrency.admin:
+    description: Access AstraCurrencyEngine administration commands.
+    default: op
+    children:
+      astracurrency.admin.create: true
+      astracurrency.admin.delete: true
+      astracurrency.admin.edit: true
+      astracurrency.admin.give: true
+      astracurrency.admin.take: true
+      astracurrency.admin.set: true
+      astracurrency.admin.reset: true
+      astracurrency.admin.resetall: true
+      astracurrency.admin.reload: true
+      astracurrency.admin.backup: true
+      astracurrency.admin.restore: true
+      astracurrency.admin.migrate: true
+      astracurrency.admin.debug: true
+      astracurrency.admin.status: true
+  astracurrency.admin.create:
+    default: op
+  astracurrency.admin.delete:
+    default: op
+  astracurrency.admin.edit:
+    default: op
+  astracurrency.admin.give:
+    default: op
+  astracurrency.admin.take:
+    default: op
+  astracurrency.admin.set:
+    default: op
+  astracurrency.admin.reset:
+    default: op
+  astracurrency.admin.resetall:
+    default: op
+  astracurrency.admin.reload:
+    default: op
+  astracurrency.admin.backup:
+    default: op
+  astracurrency.admin.restore:
+    default: op
+  astracurrency.admin.migrate:
+    default: op
+  astracurrency.admin.debug:
+    default: op
+  astracurrency.admin.status:
+    default: op
+  astracurrency.*:
+    description: Grants all AstraCurrencyEngine permissions.
+    default: op
+    children:
+      astracurrency.use: true
+      astracurrency.admin: true

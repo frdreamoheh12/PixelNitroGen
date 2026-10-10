@@ -1,0 +1,7 @@
+# Destructive administrative actions currently use an explicit `confirm` command argument.
+# Native Paper Dialog API screens are not part of this release.
+confirmation:
+  seconds: 30
+  delete: '<red>Repeat the command with `confirm` to delete this currency and its live balances.</red>'
+  resetall: '<red>Repeat the command with `confirm` to reset every account for this currency.</red>'
+  restore: '<red>Repeat the command with `confirm` to replace the active database from this backup.</red>'

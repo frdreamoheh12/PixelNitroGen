@@ -1,0 +1,9 @@
+# SQLite is the supported backend in this release. Balances are stored as exact decimal strings.
+type: sqlite
+sqlite:
+  file: data/astracurrency.db
+  busy-timeout-ms: 5000
+  worker-queue-size: 2048
+  shutdown-wait-seconds: 10
+
+# MySQL/MariaDB is reserved for a future adapter and is not exposed as an enabled option yet.
